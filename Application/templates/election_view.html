@@ -1,0 +1,46 @@
+{%extends "layout.html" %}
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+
+{% block content %}
+
+
+        <article class="media content-section">
+
+           <div class="media-body">
+
+            <h2 class="article-title" >{{ election.title  }} </h2>
+               <small class="text-muted">Between </small>
+               <small class="text-muted">{{ election.start_date.strftime('%Y-%m-%d') }}</small>
+               <small class="text-muted"> and </small>
+               <small class="text-muted">{{ election.end_date.strftime('%Y-%m-%d') }}</small>
+
+
+               {%for c in candidates %}
+                <div class="media-body" style="margin-top: 10px" >
+                <div class="article-metadata" style="margin-bottom: 10px">
+
+                    <a class="mr-2" >Candidate <b>{{ c.name }}</b> has: </a>
+                    <a class="mr-2" ><b>{{ c.votes }}</b> votes.</a>
+
+                </div>
+
+                </div>
+
+                {% endfor %}
+
+
+
+   <div style="margin-top: 20px">
+                    <a class="btn btn-primary btn-sm mt-1 mb-1" href="{{ url_for('vote_election', election_id=election.id, candidate=0) }}">Vote</a>
+                    {% if election.admin == current_user %}
+                        <a class="btn btn-primary btn-sm mt-1 mb-1" href="{{ url_for('edit_election', election_id=election.id) }}">Admin</a>
+                    {% else %}
+
+                    {% endif %}
+                </div>
+          </div>
+
+        </article>
+{% endblock content %}

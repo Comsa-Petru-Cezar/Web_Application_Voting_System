@@ -1,0 +1,78 @@
+{%extends "layout.html" %}
+{% include "create_candidate.html" %}
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+        $(document).ready(function(){
+            $("#newCandidate").modal('show');
+        });
+
+</script>
+
+{% block content %}
+
+
+        <article class="media content-section">
+
+           <div class="media-body">
+
+            <h2 class="article-title" >{{ election.title  }} </h2>
+               <small class="text-muted">Between </small>
+               <small class="text-muted">{{ election.start_date.strftime('%Y-%m-%d') }}</small>
+               <small class="text-muted"> and </small>
+               <small class="text-muted">{{ election.end_date.strftime('%Y-%m-%d') }}</small>
+
+            {% if election.admin == current_user %}
+               {%for c in candidates %}
+                <div class="media-body" style="margin-top: 10px" >
+                <div class="article-metadata" style="margin-bottom: 10px">
+                    <a class="mr-2" >{{ c.name }}</a>
+
+                    <a class="btn btn-danger btn-sm m-s" style="margin-left: 10px" href="{{ url_for('delete_candidate', election_id=election.id, candidate_name=c.name) }}">Remove</a>
+                </div>
+
+                </div>
+
+                {% endfor %}
+               <div style="margin-top: 20px">
+               <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#newCandidate"  >
+                    New Candidate
+               </button>
+                </div>
+                <div style="margin-top: 20px">
+                    <!--a class="btn btn-secondry btn-sm mt-1 mb-1" href="{{ url_for('new_election', election_id=election.id) }}">Update</a>-->
+                    <button type="button" class="btn btn-danger btn-sm m-s " data-toggle="modal" data-target="#deleteModal">Delete</button>
+
+                </div>
+            {% else %}
+            {% endif %}
+
+          </div>
+
+        </article>
+
+
+
+
+
+<!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Election?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <form action="{{ url_for('delete_election', election_id=election.id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock content %}

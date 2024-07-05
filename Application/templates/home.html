@@ -1,0 +1,31 @@
+{%extends "layout.html" %}
+{% block content %}
+    {%for e in elections.items %}
+        <article class="media content-section">
+
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ e.admin.username }}</a>
+
+            </div>
+            <h2><a class="article-title" href="{{url_for('election_view', election_id=e.id)}}">{{ e.title }}</a></h2>
+              <small class="text-muted">Between </small>
+              <small class="text-muted">{{ e.start_date.strftime('%Y-%m-%d') }}</small>
+              <small class="text-muted"> and </small>
+              <small class="text-muted">{{ e.end_date.strftime('%Y-%m-%d') }}</small>
+
+          </div>
+        </article>
+    {% endfor %}
+    {%for pn in elections.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if pn: %}
+            {% if elections.page == pn:  %}
+                <a class="btn btn-info mb-4" href="{{ url_for('home', page=pn) }}">{{pn}}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=pn) }}">{{pn}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

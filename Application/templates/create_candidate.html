@@ -1,0 +1,47 @@
+<div id="newCandidate" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+       <div class="modal-body">
+        <form method="POST" action="">
+            {{candidate.hidden_tag()}}
+            <fieldset class="form-group">
+
+            <div class="form-group">
+
+            {{ candidate.name.label(class="form-control-label") }}
+                {% if candidate.name.errors %}
+                    {{ candidate.name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for err in candidate.name.errors %}
+                            <span>
+                                {{err}}
+                            </span>
+                        {% endfor %}
+
+                    </div>
+                {% else %}
+                     {{ candidate.name(class="form-control form-control-lg ") }}
+                {% endif %}
+        </div>
+            </fieldset>
+
+          <div class="form-group">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                {{ candidate.submit(class="btn btn-outline-info") }}
+          </div>
+
+      </form>
+
+
+
+        </div>
+
+
+    </div>
+
+  </div>
+</div>
+
